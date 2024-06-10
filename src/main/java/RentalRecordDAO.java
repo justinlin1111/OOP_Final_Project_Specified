@@ -45,6 +45,14 @@ public class RentalRecordDAO {
         }
     }
 
+    /**
+     * 需要先建立allRentalRecordForCustomer, allStation, allBike才能成功載入
+     * 會把每一個顧客的租借紀錄放到類別customer的List<RentalRecord>
+     * 同時也會加入到allRentalRecordForCustomer
+     * @param allrentalRecordForCustomer
+     * @param allStation
+     * @param allBike
+     */
     public void loadRentalRecordForCustomer(ArrayList<RentalRecord> allrentalRecordForCustomer, ArrayList<Station> allStation, ArrayList<Bike> allBike) {
         Iterator Iterator = new Iterator();
         try {
@@ -74,7 +82,7 @@ public class RentalRecordDAO {
     }
 
     /**
-     * 只有一個的rentalrecord
+     * 儲存RentalRecord到資料庫裡，只有一個rentalrecord
      * @param rentalRecordForEasycard
      */
     public void saveRentalRecordForEasycard(RentalRecord rentalRecordForEasycard) {
@@ -83,7 +91,6 @@ public class RentalRecordDAO {
 
             LocalDateTime localDateTime = rentalRecordForEasycard.getTime();
             String formattedDateTime = localDateTime.format(FORMATTER);
-//            System.out.println("===time transfer OK===\n");
 
             String sql = "INSERT INTO rentalrecordforeasycard (id, time, stationUID, bikeID, rentOrReturn, cost) " +
                     "VALUES (?, ?, ?, ?, ?, ?)";
@@ -101,6 +108,10 @@ public class RentalRecordDAO {
         }
     }
 
+    /**
+     * 儲存RentalRecord到資料庫裡，只有一個rentalrecord
+     * @param rentalRecordForCustomer
+     */
     public void saveRentalRecordForCustomer(RentalRecord rentalRecordForCustomer) {
         try {
             Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD);
@@ -124,6 +135,9 @@ public class RentalRecordDAO {
         }
     }
 
+    /**
+     * 此變數用來刪除資料庫中的表格
+     */
     public void dropTable(String Type) {
         try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD)) {
 

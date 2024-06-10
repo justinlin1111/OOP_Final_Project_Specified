@@ -6,6 +6,10 @@ public class IdNumberDAO {
     private static final String USER = "root";
     private static final String PASSWORD = "12345678asdfghjkl";
 
+    /**
+     * 這個方法是從資料庫仔入idNumber的，此變數用來查詢
+     * @param idNumberofCustomer
+     */
     public void loadIdNumber(ArrayList<String> idNumberofCustomer) {
         try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD)) {
             Statement statement = conn.createStatement();
@@ -19,6 +23,10 @@ public class IdNumberDAO {
         }
     }
 
+    /**
+     * 此方法是用以將idNumber存入資料庫的
+     * @param idnumber
+     */
     public void saveIdNumber(String idnumber) {
         try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD)) {
 
@@ -32,6 +40,9 @@ public class IdNumberDAO {
         }
     }
 
+    /**
+     * 此變數用來刪除資料庫中的表格
+     */
     public void dropTable() {
         try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD)) {
 

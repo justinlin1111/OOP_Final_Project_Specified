@@ -10,6 +10,12 @@ public class StationDAO {
     private static final String USER = "root";
     private static final String PASSWORD = "12345678asdfghjkl";
 
+    /**
+     * 從資料庫中載入資料，並且將每一個Station放到allStation裡
+     * @param allStation
+     * @param iterator
+     * @param allBike
+     */
     public void loadStation(ArrayList<Station> allStation, Iterator iterator, ArrayList<Bike> allBike) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -65,13 +71,15 @@ public class StationDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        } catch (JsonMappingException e) {
-            throw new RuntimeException(e);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
     }
 
+    /**
+     * 把資料傳到資料庫保存
+     * @param station
+     */
     public void saveStation(Station station) {
         // 先把BikeArray的bike轉成id
         // 其中要把它重新另一個String[]
@@ -131,6 +139,9 @@ public class StationDAO {
         }
     }
 
+    /**
+     * 此方法用來刪除資料庫中的表格
+     */
     public void dropTable() {
         try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD)) {
 

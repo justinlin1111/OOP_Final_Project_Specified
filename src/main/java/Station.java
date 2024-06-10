@@ -1,24 +1,37 @@
 import java.util.ArrayList;
 
 public class Station {
-    private String StationUID;
-    private String StationID;
-    private String AuthorityID;
-    private String stationName;
-    private String stationnameEN;
-    private double PositionLon;
-    private double PositionLat;
-    private String GeoHash;
-    private String address;
-    private String addressEN;
-    private int BikesCapacity;
+    private final String StationUID;
+    private final String StationID;
+    private final String AuthorityID;
+    private final String stationName;
+    private final String stationnameEN;
+    private final double PositionLon;
+    private final double PositionLat;
+    private final String GeoHash;
+    private final String address;
+    private final String addressEN;
+    private final int BikesCapacity;
     private int BikesNumber; // 在這個站的腳踏車數量
     private Bike[] BikeArray; // 在這個站的腳踏車 陣列大小為 BikesCapacity
     private boolean BikealloutOfService; // 是否全部的車都為 outOfService
     private boolean nullPillaralloutOfService;
     private ArrayList<Integer> brokenpillar; // 空的 element 為 -1
 
-    // Constructor
+    /**
+     * Constructor
+     * @param StationUID
+     * @param StationID
+     * @param AuthorityID
+     * @param stationName
+     * @param stationnameEN
+     * @param PositionLon
+     * @param PositionLat
+     * @param GeoHash
+     * @param address
+     * @param addressEN
+     * @param BikesCapacity
+     */
     public Station(String StationUID, String StationID, String AuthorityID, String stationName, String stationnameEN,
             double PositionLon, double PositionLat, String GeoHash, String address, String addressEN,
             int BikesCapacity) {
@@ -38,7 +51,10 @@ public class Station {
         this.BikesNumber = 0;
     }
 
-    // Getter和Setter方法
+    /**
+     * Getter和Setter方法
+     * @return
+     */
     public String getStationUID() {
         return StationUID;
     }
@@ -171,14 +187,20 @@ public class Station {
         nullPillaralloutOfService = true;
     }
 
-    // 增加壞掉的車柱
+    /**
+     * 增加壞掉的車柱
+     * @param num
+     */
     public void pillarbroken(int num) {
         if (getBrokenpillar().contains(num))
             return;
         brokenpillar.add(num);
     }
 
-    // 修壞掉的車柱
+    /**
+     * 修壞掉的車柱
+     * @param num
+     */
     public void repairbrokenpillar(int num) {
         int action = 0;
         for (int i : brokenpillar) {
@@ -191,26 +213,43 @@ public class Station {
         determineNullPillaralloutOfService();
     }
 
-    // 減少 YouBike 數量
+    /**
+     * 減少 YouBike 數量
+     */
     public void rentBike_minusNumber() {
         BikesNumber = BikesNumber - 1;
     }
 
-    // 增加 YouBike 數量
+    /**
+     * 增加 YouBike 數量
+     */
     public void returnBike_plusNumber() {
         BikesNumber = BikesNumber + 1;
     }
 
-    // 還車或是addbike
+    /**
+     * 還車或是addbike
+     * @param Bike
+     * @param number
+     */
     public void PushBikeByArray(Bike Bike, int number) {
         BikeArray[number] = Bike;
     }
 
-    // 借車或是removebike
+    /**
+     * 借車或是removebike
+     * @param number
+     */
     public void PopBikeByArray(int number) {
         BikeArray[number] = null;
     }
 
+    /**
+     * 找到最小的值
+     * @param a
+     * @param b
+     * @return
+     */
     public int min(int a, int b) {
         if (a >= b)
             return b;
@@ -218,7 +257,10 @@ public class Station {
             return a;
     }
 
-    // return 車柱的資訊
+    /**
+     * return 車柱的資訊
+     * @return
+     */
     public String getBikeArrayinfo() {
         String s = "";
         s = s + getStationName() + "\n";
@@ -250,7 +292,7 @@ public class Station {
             if (brokenpillar.contains(i)) {
                 s = s + "*";
             } else if (BikeArray[i] != null) {
-                if (BikeArray[i].getState().equals("OK") == false)
+                if (!BikeArray[i].getState().equals("OK"))
                     s = s + "*";
                 else
                     s = s + " ";
@@ -287,7 +329,7 @@ public class Station {
                 if (brokenpillar.contains(i)) {
                     s = s + "*";
                 } else if (BikeArray[i] != null) {
-                    if (BikeArray[i].getState().equals("OK") == false)
+                    if (!BikeArray[i].getState().equals("OK"))
                         s = s + "*";
                 } else
                     s = s + " ";
@@ -323,7 +365,7 @@ public class Station {
                 if (brokenpillar.contains(i)) {
                     s = s + "*";
                 } else if (BikeArray[i] != null) {
-                    if (BikeArray[i].getState().equals("OK") == false)
+                    if (!BikeArray[i].getState().equals("OK"))
                         s = s + "*";
                 } else
                     s = s + " ";
@@ -359,7 +401,7 @@ public class Station {
                 if (brokenpillar.contains(i)) {
                     s = s + "*";
                 } else if (BikeArray[i] != null) {
-                    if (BikeArray[i].getState().equals("OK") == false)
+                    if (!BikeArray[i].getState().equals("OK"))
                         s = s + "*";
                 } else
                     s = s + " ";
@@ -368,24 +410,30 @@ public class Station {
         return s;
     }
 
-    // return 可用車位數量
+    /**
+     * return 可用車位數量
+     * @return
+     */
     private int getAvailableSlots() {
         int num = 0;
         for (int i = 0; i < BikesCapacity; i++) {
             if (BikeArray[i] == null) {
-                if (brokenpillar.contains(i) == false)
+                if (!brokenpillar.contains(i))
                     num = num + 1;
             }
         }
         return num;
     }
 
-    // return 可用Youbike數量
+    /**
+     * return 可用Youbike數量
+     * @return
+     */
     private int getAvailableBike() {
         int num = 0;
         for (int i = 0; i < BikesCapacity; i++) {
             if (BikeArray[i] != null) {
-                if (brokenpillar.contains(i) == false) {
+                if (!brokenpillar.contains(i)) {
                     if (BikeArray[i].getState().equals("OK"))
                         num = num + 1;
                 }
@@ -394,30 +442,36 @@ public class Station {
         return num;
     }
 
-    // 查詢是否有可用 YouBike
+    /**
+     * 查詢是否有可用 YouBike
+     * @return
+     */
     public boolean hasBikes() {
-        if (getAvailableBike() == 0)
-            return false;
-        else
-            return true;
+        return getAvailableBike() != 0;
     }
 
-    // 查詢是否有可用車位
+    /**
+     * 查詢是否有可用車位
+     * @return
+     */
     public boolean hasEmptySlots() {
-        if (getAvailableSlots() == 0)
-            return false;
-        else
-            return true;
+        return getAvailableSlots() != 0;
     }
 
-    // return 車站腳踏車資訊
+    /**
+     * return 車站腳踏車資訊
+     * @return
+     */
     private String getBikesInfo() {
         StringBuilder bikesInfo = new StringBuilder();
         bikesInfo.append(BikesNumber).append("/").append(BikesCapacity);
         return bikesInfo.toString();
     }
 
-    // 查詢車站資訊
+    /**
+     * 查詢車站資訊
+     * @return
+     */
     public String getStationInfo() {
         if (this.stationName == null) {
             return "the station is null";

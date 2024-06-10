@@ -11,24 +11,24 @@ public class Maintainer {
      * get the bike's state
      * 
      * @param a  the arraylist contains all the bikes
-     * @param id target bike's id number
+     * @param bikeID target bike's id number
      * @return the state of the bike
      */
-    public String idGetState(ArrayList<Bike> a, String id) {
-        Bike bike = idgetbike(a, id);
+    public String idGetState(ArrayList<Bike> a, String bikeID) {
+        Bike bike = idgetbike(a, bikeID);
         assert bike != null;
-        return "車號 " + id + " 的車輛狀態為 " + bike.getState();
+        return "車號 " + bikeID + " 的車輛狀態為 " + bike.getState();
     }
 
     /**
      * set the bike's state
      * 
-     * @param a     the arraylist contains all the bikes
-     * @param id    target bike's id number
+     * @param allBike     the arraylist contains all the bikes
+     * @param bikeID    target bike's id number
      * @param state the state you want to set to the bike
      */
-    public void BikeidSetState(ArrayList<Bike> a, String id, String state) {
-        Bike bike = idgetbike(a, id);
+    public void BikeidSetState(ArrayList<Bike> allBike, String bikeID, String state) {
+        Bike bike = idgetbike(allBike, bikeID);
         assert bike != null;
         bike.setState(state);
         if (bike.getnowStation() != null) {
@@ -40,7 +40,7 @@ public class Maintainer {
     /**
      * 修復車柱
      * 
-     * @param Station 車站
+     * @param StationUID 車站
      * @param pillar  修好的車柱
      */
     public void repairbrokenpillar(String StationUID, int pillar, ArrayList<Station> allStation) {
@@ -54,7 +54,7 @@ public class Maintainer {
             return;
         }
         pillar = pillar - 1;
-        if (station.getBrokenpillar().contains(pillar) == false) {
+        if (!station.getBrokenpillar().contains(pillar)) {
             System.out.println("此車柱無損壞");
             return;
         }
@@ -64,12 +64,12 @@ public class Maintainer {
     /**
      * get the arraylist that contains all the out of region bike
      * 
-     * @param a the bike arraylist contains all the bike
+     * @param allBike the bike arraylist contains all the bike
      * @return arraylist that contains all the out of region bike
      */
-    public ArrayList<Bike> getCrossRegion(ArrayList<Bike> a) {
+    public ArrayList<Bike> getCrossRegion(ArrayList<Bike> allBike) {
         ArrayList<Bike> notSameRegion = new ArrayList<Bike>();
-        for (Bike bike : a) {
+        for (Bike bike : allBike) {
             bike.determineIsCrossRegional();
             if (bike.getIsCrossRegional()) {
                 notSameRegion.add(bike);
@@ -82,20 +82,22 @@ public class Maintainer {
      * replace a slot in station with a bike，並且更新站點資訊與車輛資訊
      * 不指定車子
      * 
-     * @param station        the station you want to add
+     * @param stationUID        the station you want to add
      * @param adjustableBike 所有可以調度的車子
      */
-    public void addBike(String stationUID, ArrayList<Bike> adjustableBike, ArrayList<Station> allStation) {
+    public void addBike(String stationUID,
+                        ArrayList<Bike> adjustableBike,
+                        ArrayList<Station> allStation) {
         Station station = idgetStation(allStation, stationUID);
         if (station == null) {
             System.out.println("查無此站點");
             return;
         }
-        if (station.hasEmptySlots() == false) {
+        if (!station.hasEmptySlots()) {
             System.out.println("此站點無車柱可新增 YouBike");
             return;
         }
-        if (adjustableBike.size() == 0) {
+        if (adjustableBike.isEmpty()) {
             System.out.println("目前無可調度的 YouBike");
             return;
         }
@@ -127,13 +129,15 @@ public class Maintainer {
      * replace a slot in station with a bike
      * 跟上面不同的是這邊指定車子 但是指定 Bike ID
      * 
-     * @param station        the station you want to add
+     * @param stationUID        the station you want to add
      * @param adjustableBike 所有可以調度的 YouBike
      * @param pillar         要停的車柱
      * @param BikeID         BIke 的 ID
      */
-    public void addBike(String stationUID, ArrayList<Bike> adjustableBike, int pillar, String BikeID,
-            ArrayList<Station> allStation) {
+    public void addBike(String stationUID,
+                        ArrayList<Bike> adjustableBike,
+                        int pillar, String BikeID,
+                        ArrayList<Station> allStation) {
         Station station = idgetStation(allStation, stationUID);
         Bike addbike = idgetbike(adjustableBike, BikeID);
         pillar = pillar - 1; // pillar 是從 1 開始，所以要 -1
@@ -172,7 +176,7 @@ public class Maintainer {
      * replace a slot in station with a null
      * 但不指定 YouBike
      * 
-     * @param station        the station you want to remove
+     * @param stationUID        the station you want to remove
      * @param adjustableBike 所有可以調度的車子 因為 bike 要加進去這裡所以需要
      */
     public void removeBike(String stationUID, ArrayList<Bike> adjustableBike, ArrayList<Station> allStation) {
@@ -207,12 +211,15 @@ public class Maintainer {
     /**
      * replace a slot in station with a null
      * 
-     * @param station        the station you want to remove
-     * @param bike           the bike you want to remove
+     * @param stationUID        the station you want to remove
+     * @param bikeID           the bike you want to remove
      * @param adjustableBike 所有可以調度的車子 因為 bike 要加進去這裡所以需要
      */
-    public void removeBike(String stationUID, String bikeID, ArrayList<Bike> adjustableBike,
-            ArrayList<Station> allStation, ArrayList<Bike> allBike) {
+    public void removeBike(String stationUID,
+                           String bikeID,
+                           ArrayList<Bike> adjustableBike,
+                           ArrayList<Station> allStation,
+                           ArrayList<Bike> allBike) {
         Station station = idgetStation(allStation, stationUID);
         Bike bike = idgetbike(allBike, bikeID);
         if (station == null) {
@@ -270,7 +277,7 @@ public class Maintainer {
      * 用車站的 StationUID 去找車站
      * 
      * @param a  所有的車站
-     * @param id 要找的車站的 StationUID
+     * @param StationUID 要找的車站的 StationUID
      * @return 車站
      */
     public Station idgetStation(ArrayList<Station> a, String StationUID) {
@@ -284,12 +291,12 @@ public class Maintainer {
     /**
      * 用 easyCardNumber 去找 Easycard
      * 
-     * @param a           allEasycard
-     * @param PhoneNumber easyCardNumber
+     * @param allEasycard           allEasycard
+     * @param easyCardNumber easyCardNumber
      * @return Easycard
      */
-    public Easycard idgetEasycard(ArrayList<Easycard> a, String easyCardNumber) {
-        for (Easycard Easycard : a) {
+    public Easycard idgetEasycard(ArrayList<Easycard> allEasycard, String easyCardNumber) {
+        for (Easycard Easycard : allEasycard) {
             if (Easycard.getNumber().equals(easyCardNumber))
                 return Easycard;
         }
@@ -300,9 +307,9 @@ public class Maintainer {
      * 用rentalRecordid找rentalRecordForEasycard，
      * 與forCustomer不同的是，因為顧客跟悠遊卡的交易紀律可以不同(包含關係)
      * 因此需要分別處理交易紀錄，這邊的id是指每一張卡片依照時間的交易順序
-     * @param allRentalRecordForEasyCard
-     * @param rentalRecordIdForEasycard
-     * @return
+     * @param allRentalRecordForEasyCard    所有悠遊卡的租借紀錄
+     * @param rentalRecordIdForEasycard     想要取得的RentalRecord的id
+     * @return                              回傳一個租借紀錄的物件
      */
     public RentalRecord idGetRentalRecordForEasycard(List<RentalRecord> allRentalRecordForEasyCard, int rentalRecordIdForEasycard) {
         for (RentalRecord rentalRecordForEasyCard : allRentalRecordForEasyCard) {
@@ -316,9 +323,9 @@ public class Maintainer {
     /**
      * 用rentalRecordid找rentalRecordForCustomer，
      * 參考idGetRentalRecordForEasycard
-     * @param allRentalRecordForCustomer
-     * @param rentalRecordIdForCustomer
-     * @return
+     * @param allRentalRecordForCustomer    所有顧客的租借紀錄
+     * @param rentalRecordIdForCustomer     想要取得的RentalRecord的id
+     * @return                              回傳一個租借紀錄的物件
      */
     public RentalRecord idGetRentalRecordForCustomer(List<RentalRecord> allRentalRecordForCustomer, int rentalRecordIdForCustomer) {
         for (RentalRecord rentalRecordForCustomer : allRentalRecordForCustomer) {

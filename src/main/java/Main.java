@@ -34,34 +34,9 @@ public class Main {
                 allRentalRecordForEasycard,
                 allRentalRecordForCustomer
         );
-
-
-        // 需要操作的method
-        //CustomerSystem
-        //  register
-        //  login
-        //  addEasycard
-        //  RentBike * 2
-        //  ReturnBike * 2
-        //  topUpEasyCard
-        //  MaintenanceReport
-        //  checkStation
-        //
-        //Maintainer
-        //  BikeidSetState
-        //  repairbrokenpillar
-        //  getCrossRegion
-        //  addBike * 2
-        //  removeBike * 2
-        //
-        //EasyCard
-        //  EasyCard
-        //  registerCustomer
-        //  removeCustomer
-        //  Recordquery
-        //
-        //Customer
-        //  Recordquery
+        // ====================================================================== //
+        // =================================操作區域=============================== //
+        // ====================================================================== //
         System.out.println("=== 測試 MaintenanceReport 回報YouBike ===");
         System.out.println();
 
@@ -108,6 +83,9 @@ public class Main {
 
 
 
+        // ====================================================================== //
+        // =================================操作區域=============================== //
+        // ====================================================================== //
         dao.saveData(
                 allBike,
                 adjustableBike,

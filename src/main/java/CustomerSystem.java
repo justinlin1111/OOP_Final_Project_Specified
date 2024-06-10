@@ -64,11 +64,13 @@ public class CustomerSystem {
     /**
      * 用來新增 Easycard
      * 
-     * @param Easycard 新增的Easycard
-     * @param Customer 想要新增的 Customer
+     * @param Easycardnum 新增的Easycard
+     * @param CustomerID 想要新增的 Customer
      */
-    public void addEasycard(String Easycardnum, String CustomerID, ArrayList<Easycard> allEasycards,
-            ArrayList<Customer> customerList) {
+    public void addEasycard(String Easycardnum,
+                            String CustomerID,
+                            ArrayList<Easycard> allEasycards,
+                            ArrayList<Customer> customerList) {
         Easycard Easycard = idgetEasycard(allEasycards, Easycardnum);
         Customer Customer = idgetCustomer(CustomerID, customerList);
         if (Customer.getEasycard().size() >= 4) {
@@ -88,11 +90,15 @@ public class CustomerSystem {
      * By KUO
      * 這個 function 用來借車 並使用當前時間
      * 
-     * @param Station  傳入借車的站點
-     * @param Easycard 用這張 Easycard 借車的
+     * @param StationUID  傳入借車的站點
+     * @param Easycardnum 用這張 Easycard 借車的
      */
-    void RentBike(String StationUID, String Easycardnum, ArrayList<Easycard> allEasycard,
-            ArrayList<Station> allStation, ArrayList<RentalRecord> allRentalRecordForEasycard, ArrayList<RentalRecord> allRentalRecordForCustomer) {
+    void RentBike(String StationUID,
+                  String Easycardnum,
+                  ArrayList<Easycard> allEasycard,
+                  ArrayList<Station> allStation,
+                  ArrayList<RentalRecord> allRentalRecordForEasycard,
+                  ArrayList<RentalRecord> allRentalRecordForCustomer) {
         Station Station = idgetStation(allStation, StationUID);
         Easycard Easycard = idgetEasycard(allEasycard, Easycardnum);
         if (Station == null) {
@@ -112,7 +118,7 @@ public class CustomerSystem {
             System.out.println("已借車，不能再借");
             return;
         }
-        if (Station.hasBikes() == false) {
+        if (!Station.hasBikes()) {
             System.out.println("無可借用 YouBike");
             return;
         }
@@ -161,12 +167,17 @@ public class CustomerSystem {
      * 這個 function 用來借車 但可以指定時間
      * str 的格式 : YYYY-MM-DDTHH:MM:SS, ex. 2024-05-12T11:10:10
      * 
-     * @param Station  傳入借車的站點
-     * @param Easycard 用這張 Easycard 借車的
+     * @param StationUID  傳入借車的站點
+     * @param Easycardnum 用這張 Easycard 借車的
      * @param str      指定時間
      */
-    void RentBike(String StationUID, String Easycardnum, String str, ArrayList<Easycard> allEasycard,
-            ArrayList<Station> allStation, ArrayList<RentalRecord> allRentalRecordForEasycard, ArrayList<RentalRecord> allRentalRecordForCustomer) {
+    void RentBike(String StationUID,
+                  String Easycardnum,
+                  String str,
+                  ArrayList<Easycard> allEasycard,
+                  ArrayList<Station> allStation,
+                  ArrayList<RentalRecord> allRentalRecordForEasycard,
+                  ArrayList<RentalRecord> allRentalRecordForCustomer) {
         Station Station = idgetStation(allStation, StationUID);
         Easycard Easycard = idgetEasycard(allEasycard, Easycardnum);
         if (Station == null) {
@@ -186,7 +197,7 @@ public class CustomerSystem {
             System.out.println("已借車，不能再借");
             return;
         }
-        if (Station.hasBikes() == false) {
+        if (!Station.hasBikes()) {
             System.out.println("無可借用 YouBike");
             return;
         }
@@ -241,11 +252,15 @@ public class CustomerSystem {
      * By KUO
      * 這個 function 用來還車 並使用當前時間
      * 
-     * @param Station  傳入還車的站點
-     * @param Easycard 用這張 Easycard 借車的
+     * @param StationUID  傳入還車的站點
+     * @param Easycardnum 用這張 Easycard 借車的
      */
-    void ReturnBike(String StationUID, String Easycardnum, ArrayList<Easycard> allEasycard,
-            ArrayList<Station> allStation, ArrayList<RentalRecord> allRentalRecordForEasycard, ArrayList<RentalRecord> allRentalRecordForCustomer) {
+    void ReturnBike(String StationUID,
+                    String Easycardnum,
+                    ArrayList<Easycard> allEasycard,
+                    ArrayList<Station> allStation,
+                    ArrayList<RentalRecord> allRentalRecordForEasycard,
+                    ArrayList<RentalRecord> allRentalRecordForCustomer) {
         Station Station = idgetStation(allStation, StationUID);
         Easycard Easycard = idgetEasycard(allEasycard, Easycardnum);
         if (Station == null) {
@@ -261,15 +276,15 @@ public class CustomerSystem {
             System.out.println("此 Easycard 尚未註冊");
             return;
         }
-        if (Customer.getisRenting() == false) {
+        if (!Customer.getisRenting()) {
             System.out.println("無借車，無法還車");
             return;
         }
-        if (Customer.getusingEasycard().equals(Easycard) != true) {
+        if (!Customer.getusingEasycard().equals(Easycard)) {
             System.out.println("刷錯張悠遊卡了");
             return;
         }
-        if (Station.hasEmptySlots() == false) {
+        if (!Station.hasEmptySlots()) {
             System.out.println("無可用車位可還");
             return;
         }
@@ -300,7 +315,7 @@ public class CustomerSystem {
         for (int i = 1; i <= range; i++) {
             if (i == 1) {
                 if (Customer.getrentLocation().equals("TPE"))
-                    cost = cost + 0;
+                    cost = cost;
                 else
                     cost = cost + 5;
             } else if (i >= 2 && i <= 8)
@@ -345,12 +360,17 @@ public class CustomerSystem {
      * str 的格式 : YYYY-MM-DDTHH:MM:SS, ex. 2024-05-12T11:10:10
      *
      * 
-     * @param Station  傳入借車的站點
-     * @param Easycard 用這張 Easycard 借車的
+     * @param StationUID  傳入借車的站點
+     * @param Easycardnum 用這張 Easycard 借車的
      * @param str      指定時間
      */
-    void ReturnBike(String StationUID, String Easycardnum, String str, ArrayList<Easycard> allEasycard,
-            ArrayList<Station> allStation, ArrayList<RentalRecord> allRentalRecordForEasycard, ArrayList<RentalRecord> allRentalRecordForCustomer) {
+    void ReturnBike(String StationUID,
+                    String Easycardnum,
+                    String str,
+                    ArrayList<Easycard> allEasycard,
+                    ArrayList<Station> allStation,
+                    ArrayList<RentalRecord> allRentalRecordForEasycard,
+                    ArrayList<RentalRecord> allRentalRecordForCustomer) {
         Station Station = idgetStation(allStation, StationUID);
         Easycard Easycard = idgetEasycard(allEasycard, Easycardnum);
         if (Station == null) {
@@ -366,15 +386,15 @@ public class CustomerSystem {
             System.out.println("此 Easycard 尚未註冊");
             return;
         }
-        if (Customer.getisRenting() == false) {
+        if (!Customer.getisRenting()) {
             System.out.println("無借車，無法還車");
             return;
         }
-        if (Customer.getusingEasycard().equals(Easycard) != true) {
+        if (!Customer.getusingEasycard().equals(Easycard)) {
             System.out.println("刷錯張悠遊卡了");
             return;
         }
-        if (Station.hasEmptySlots() == false) {
+        if (!Station.hasEmptySlots()) {
             System.out.println("無可用車位可還");
             return;
         }
@@ -412,7 +432,7 @@ public class CustomerSystem {
         for (int i = 1; i <= range; i++) {
             if (i == 1) {
                 if (Customer.getrentLocation().equals("TPE"))
-                    cost = cost + 0;
+                    cost = cost;
                 else
                     cost = cost + 5;
             } else if (i >= 2 && i <= 8)
@@ -456,9 +476,11 @@ public class CustomerSystem {
      * 這個方法是用來儲值悠遊卡的，如果在欠錢的狀況下儲值金額不夠會導致儲值失敗
      * 
      * @param amount   我想要存入的數目
-     * @param easycard 傳入的悠遊卡
+     * @param Easycardnum 傳入的悠遊卡
      */
-    public void topUpEasyCard(int amount, String Easycardnum, ArrayList<Easycard> allEasycard) {
+    public void topUpEasyCard(int amount,
+                              String Easycardnum,
+                              ArrayList<Easycard> allEasycard) {
         Easycard Easycard = idgetEasycard(allEasycard, Easycardnum);
         if (Easycard == null) {
             System.out.println("查無此 Easycard");
@@ -479,8 +501,8 @@ public class CustomerSystem {
     /**
      * 這個方法是用來提交維修報告的，會向系統報告維修問題，並且把單車或是站點的狀態更改
      * 
-     * @param bike              傳入需要維修的單車
-     * @param station           傳入需要維修的站點
+     * @param bikeID              傳入需要維修的單車
+     * @param stationUID           傳入需要維修的站點
      * @param repairDescription 傳入需維修物品的描述
      */
     public void MaintenanceReport(String bikeID, String stationUID, int pillar, String repairDescription,
@@ -519,7 +541,13 @@ public class CustomerSystem {
         System.out.println("維修項目：" + repairDescription);
     }
 
-    // 輸入 IdNumber 去找 Customer
+    /**
+     * 利用IdNumber去找顧客(class)
+     *
+     * @param IdNumber
+     * @param customerList
+     * @return
+     */
     public Customer idgetCustomer(String IdNumber, ArrayList<Customer> customerList) {
         for (Customer Customer : customerList) {
             if (Customer.getIdNumber().equals(IdNumber)) {
@@ -532,12 +560,12 @@ public class CustomerSystem {
     /**
      * 用 easyCardNumber 去找 Easycard
      * 
-     * @param a           allEasycard
-     * @param PhoneNumber easyCardNumber
+     * @param allEasycard           allEasycard
+     * @param easyCardNumber easyCardNumber
      * @return Easycard
      */
-    public Easycard idgetEasycard(ArrayList<Easycard> a, String easyCardNumber) {
-        for (Easycard Easycard : a) {
+    public Easycard idgetEasycard(ArrayList<Easycard> allEasycard, String easyCardNumber) {
+        for (Easycard Easycard : allEasycard) {
             if (Easycard.getNumber().equals(easyCardNumber))
                 return Easycard;
         }
@@ -547,12 +575,12 @@ public class CustomerSystem {
     /**
      * use id to get bike object
      * 
-     * @param a  the arraylist contains all the bikes
+     * @param allBike  the arraylist contains all the bikes
      * @param id the target bike's id number
      * @return return the bike object havs the id number
      */
-    private Bike idgetbike(ArrayList<Bike> a, String id) {
-        for (Bike bike : a) {
+    private Bike idgetbike(ArrayList<Bike> allBike, String id) {
+        for (Bike bike : allBike) {
             if (bike.getId().equals(id)) {
                 return bike;
             }
@@ -563,18 +591,26 @@ public class CustomerSystem {
     /**
      * 用車站的 StationUID 去找車站
      * 
-     * @param a  所有的車站
-     * @param id 要找的車站的 StationUID
+     * @param allStation  所有的車站
+     * @param StationUID 要找的車站的 StationUID
      * @return 車站
      */
-    public Station idgetStation(ArrayList<Station> a, String StationUID) {
-        for (Station Station : a) {
+    public Station idgetStation(ArrayList<Station> allStation, String StationUID) {
+        for (Station Station : allStation) {
             if (Station.getStationUID().equals(StationUID))
                 return Station;
         }
         return null;
     }
 
+    /**
+     * 取得目前位置離站點的距離
+     *
+     * @param longitude1
+     * @param latitude1
+     * @param Station
+     * @return
+     */
     public double getDistanceBetweenStationAndPoint(double longitude1, double latitude1, Station Station) {
         double longitude2 = Station.getPositionLon();
         double latitude2 = Station.getPositionLat();
@@ -593,6 +629,7 @@ public class CustomerSystem {
     }
 
     /**
+     * 利用經緯度查詢範圍內有多少車
      *
      * @param lon        查詢的經度
      * @param lat        查詢的緯度
@@ -614,7 +651,7 @@ public class CustomerSystem {
                     if (Station.hasBikes())
                         a.add(Station);
                 }
-                if (str.equals(""))
+                if (str.isEmpty())
                     a.add(Station);
             }
         }

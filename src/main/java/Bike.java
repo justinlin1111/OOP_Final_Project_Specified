@@ -1,7 +1,7 @@
 public class Bike {
-    private String id;
-    private String AuthorityID;
-    private String type; // 加上車輛類型，(2.0/2.0E)
+    private final String id;
+    private final String AuthorityID;
+    private final String type; // 加上車輛類型，(2.0/2.0E)
     private String state; // isRented, OK, outOfService, lost
     private String nowStationString;    // 為了從資料庫拿出及放入nowStation
     private Station nowStation;
@@ -81,13 +81,13 @@ public class Bike {
             IsCrossRegional = false;
             return;
         }
-        if (AuthorityID.equals(nowStation.getAuthorityID()))
-            IsCrossRegional = false;
-        else
-            IsCrossRegional = true;
+        IsCrossRegional = !AuthorityID.equals(nowStation.getAuthorityID());
     }
 
-    // return info
+    /**
+     * 印出當前腳踏車的狀態，並且返回一個字串用以印出或做其他操作
+     * @return
+     */
     public String infoforBike() {
         String s = "";
         s = s + "id : " + id + "\n";

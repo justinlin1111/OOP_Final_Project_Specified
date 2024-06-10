@@ -12,8 +12,11 @@ public class EasycardDAO {
 
     /**
      * 使用此方法前要先load allRentalRecordForEasycard，不然會查不到這個rentalRecord
+     * 這個方法是用來從資料庫載入Easycard資訊的
      * @param allEasycard
+     * 表示所有的悠遊卡
      * @param allRentalRecordForEasycard
+     * 表示悠遊卡的所有租借紀錄
      */
     public void loadEasycard(ArrayList<Easycard> allEasycard, List<RentalRecord> allRentalRecordForEasycard) {
         Iterator Iterator = new Iterator();
@@ -40,7 +43,6 @@ public class EasycardDAO {
                     // 使用 Jackson 将 JSON 字符串转换为 int[] 数组
                     int[] rentalRecordid = objectMapper.readValue(jsonString, int[].class);
 
-//                    System.out.println("rentalId should be 1 : " + rentalRecordid[0]);
                     if (rentalRecordid != null) {
                         // 把這個id轉成rentalRecord
                         List<RentalRecord> rentalRecord = new ArrayList<>();
@@ -52,8 +54,6 @@ public class EasycardDAO {
                     }
                 }
 
-
-                // note customer was not set
                 allEasycard.add(easycard);
             }
         } catch (SQLException | JsonProcessingException e) {
@@ -61,6 +61,10 @@ public class EasycardDAO {
         }
     }
 
+    /**
+     * 用來將資料存入資料庫，
+     * @param easycard
+     */
     public void saveEasycard(Easycard easycard) {
 
         Connection conn = null;
@@ -109,6 +113,9 @@ public class EasycardDAO {
         }
     }
 
+    /**
+     * 這個方法是用來把資料庫中的表格刪除，從而可以做到執行完一次就更新
+     */
     public void dropTable() {
         try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD)) {
 

@@ -11,6 +11,28 @@ public class DAO {
     IdNumberDAO idNumberdao = new IdNumberDAO();
     Iterator Iterator = new Iterator();
 
+    /**
+     * 將所有資料載入
+     * 整合全部的DAO，如此就不需要知道背後運作的邏輯，只需要把想要取得的資料丟進來即可
+     * @param allBike
+     * 表示一個陣列存放所有的腳踏車
+     * @param adjustableBike
+     * 表示一個陣列存放所有可調度的腳踏車
+     * @param allStation
+     * 表示一個陣列存放所有的站點
+     * @param allEasycard
+     * 表示一個陣列存放所有的悠遊卡
+     * @param customerList
+     * 表示一個陣列存放所有的顧客
+     * @param PhoneNumbeofCustomer
+     * 表示一個陣列存放所有顧客的手機號碼
+     * @param idNumberofCustomer
+     * 表示一個陣列存放所有顧客的身分證字號
+     * @param allRentalRecordForEasycard
+     * 表示一個陣列存放所有悠遊卡的租借紀錄
+     * @param allRentalRecordForCustomer
+     * 表示一個陣列存放所有顧客的租借紀錄
+     */
     public void loadData(ArrayList<Bike> allBike,
                          ArrayList<Bike> adjustableBike,
                          ArrayList<Station> allStation,
@@ -45,19 +67,6 @@ public class DAO {
         for (Bike adjustablebike: adjustableBike){
             adjustablebike.setnowStation(Iterator.getMaintainer().idgetStation(allStation, adjustablebike.getNowStationString()));
         }
-
-//        System.out.println("===test import BikeArray===");
-//        // 應該印出一個站點的所有車
-//        System.out.println(allStation.get(0).getStationInfo());
-//        System.out.println("done\n");
-//        for (Bike bike: allStation.get(0).getBikeArray()){
-//            if (bike != null){
-//                System.out.print(bike.getId() + " ");
-//            } else {
-//                System.out.print("X ");
-//            }
-//        }
-//        System.out.println();
 
         System.out.println("===test load rentalRecordForEasycard===");
         rentalRecordDAO.loadRentalRecordForEasycard(allRentalRecordForEasycard, allStation, allBike);
@@ -99,6 +108,28 @@ public class DAO {
         System.out.println("=================\n\n");
     }
 
+    /**
+     * 將所有資料存入資料庫
+     * 整合全部的DAO，如此就不需要知道背後運作的邏輯，只需要把想要存入的資料丟進來即可
+     * @param allBike
+     * 表示一個陣列存放所有的腳踏車
+     * @param adjustableBike
+     * 表示一個陣列存放所有可調度的腳踏車
+     * @param allStation
+     * 表示一個陣列存放所有的站點
+     * @param allEasycard
+     * 表示一個陣列存放所有的悠遊卡
+     * @param customerList
+     * 表示一個陣列存放所有的顧客
+     * @param PhoneNumbeofCustomer
+     * 表示一個陣列存放所有顧客的手機號碼
+     * @param idNumberofCustomer
+     * 表示一個陣列存放所有顧客的身分證字號
+     * @param allRentalRecordForEasycard
+     * 表示一個陣列存放所有悠遊卡的租借紀錄
+     * @param allRentalRecordForCustomer
+     * 表示一個陣列存放所有顧客的租借紀錄
+     */
     public void saveData(ArrayList<Bike> allBike,
                          ArrayList<Bike> adjustableBike,
                          ArrayList<Station> allStation,

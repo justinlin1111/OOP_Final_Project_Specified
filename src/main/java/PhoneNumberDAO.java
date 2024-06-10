@@ -6,6 +6,10 @@ public class PhoneNumberDAO {
     private static final String USER = "root";
     private static final String PASSWORD = "12345678asdfghjkl";
 
+    /**
+     * 此方法用來載入資料庫中的資料
+     * @param PhoneNumberofCustomer
+     */
     public void loadPhoneNumber(ArrayList<String> PhoneNumberofCustomer) {
         try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD)) {
             Statement statement = conn.createStatement();
@@ -19,6 +23,10 @@ public class PhoneNumberDAO {
         }
     }
 
+    /**
+     * 此方法用於將資料存入資料庫中
+     * @param phonenumber
+     */
     public void savePhoneNumber(String phonenumber) {
         try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD)) {
 
@@ -32,6 +40,9 @@ public class PhoneNumberDAO {
         }
     }
 
+    /**
+     * 此變數用來刪除資料庫中的表格
+     */
     public void dropTable() {
         try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD)) {
 
