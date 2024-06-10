@@ -11,9 +11,19 @@ public class CustomerDAO {
     private static final String DB_URL = "jdbc:mysql://127.0.0.1:3306/oop_final_project";
     private static final String USER = "root";
     private static final String PASSWORD = "12345678asdfghjkl";
-
     Iterator Iterator = new Iterator();
-    public void loadCustomer(ArrayList<Customer> customerList, ArrayList<Easycard> allEasycard, ArrayList<Bike> allBike, List<RentalRecord> allRentalRecordForCustomer) {
+
+    /**
+     * 將顧客資料從資料庫下載下來
+     * @param customerList                  一個存放顧客資料的清單
+     * @param allEasycard                   一個陣列存放所有悠遊卡
+     * @param allBike                       一個陣列存放所有腳踏車
+     * @param allRentalRecordForCustomer    一個陣列存放所有顧客的租借資料
+     */
+    public void loadCustomer(ArrayList<Customer> customerList,
+                             ArrayList<Easycard> allEasycard,
+                             ArrayList<Bike> allBike,
+                             List<RentalRecord> allRentalRecordForCustomer) {
         Connection conn = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -103,6 +113,10 @@ public class CustomerDAO {
         }
     }
 
+    /**
+     * 將顧客的資料儲存到資料庫中
+     * @param customer  要儲存的顧客物件
+     */
     public void saveCustomer(Customer customer) {
         Iterator Iterator = new Iterator();
         Connection conn = null;
@@ -141,8 +155,6 @@ public class CustomerDAO {
                 pstmt.setString(5, null);
             }
 
-
-            // 存租借紀錄 跟EasycardDAO很像
             if (!customer.getRentalRecords().isEmpty()) {
                 int[] rentalRecordId = new int[customer.getRentalRecords().size()];
 
@@ -160,7 +172,6 @@ public class CustomerDAO {
                 pstmt.setString(6, null);
             }
 
-
             pstmt.setString(7, customer.getrentedBike() != null ? customer.getrentedBike().getId() : null);
             LocalDateTime rentalTime = customer.getrentalTime();
             if(rentalTime != null) {
@@ -177,6 +188,9 @@ public class CustomerDAO {
         }
     }
 
+    /**
+     * 此方法會把資料庫中的表格刪除用以更新資料
+     */
     public void dropTable() {
         try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD)) {
 

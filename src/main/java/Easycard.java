@@ -10,7 +10,10 @@ public class Easycard {
     private String Customerid;
     private List<RentalRecord> rentalRecords; // 租借紀錄
 
-    // Constructor
+    /**
+     * Constructor
+     * @param easyCardNumber    悠遊卡號
+     */
     public Easycard(String easyCardNumber) {
         this.easyCardNumber = easyCardNumber;
         balance = 0;
@@ -18,7 +21,10 @@ public class Easycard {
         this.rentalRecords = new ArrayList<>();
     }
 
-    // Getter和Setter方法
+    /**
+     * Getter和Setter方法
+     */
+
     public Customer getCustomer() {
         return Customer;
     }

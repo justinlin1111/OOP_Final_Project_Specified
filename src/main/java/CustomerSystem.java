@@ -4,14 +4,35 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 
 public class CustomerSystem {
-    // Constructor
+    /**
+     * Constructor
+     */
     public CustomerSystem() {
     }
 
-    // 註冊功能
-    public void register(String phoneNumber, String password, String passwordAgain, String idNumber, String email,
-            String Easycardnumber, ArrayList<Easycard> allEasycard, ArrayList<String> PhoneNumbeofCustomer,
-            ArrayList<Customer> customerList, ArrayList<String> idNumberofCustomer) {
+    /**
+     * 註冊功能
+     * @param phoneNumber           手機號碼
+     * @param password              密碼
+     * @param passwordAgain         再輸入一次密碼
+     * @param idNumber              身分證字號
+     * @param email                 電子信祥
+     * @param Easycardnumber        悠遊卡卡號
+     * @param allEasycard           一個存放所有悠遊卡的陣列
+     * @param PhoneNumbeofCustomer  存放所有顧客手機號碼的陣列
+     * @param customerList          存放所有顧客資料的陣列
+     * @param idNumberofCustomer    存放所有身分證字號的陣列
+     */
+    public void register(String phoneNumber,
+                         String password,
+                         String passwordAgain,
+                         String idNumber,
+                         String email,
+                         String Easycardnumber,
+                         ArrayList<Easycard> allEasycard,
+                         ArrayList<String> PhoneNumbeofCustomer,
+                         ArrayList<Customer> customerList,
+                         ArrayList<String> idNumberofCustomer) {
         if (!password.equals(passwordAgain)) {
             System.out.println("請輸入相同的密碼");
             return;
@@ -48,7 +69,13 @@ public class CustomerSystem {
         System.out.println("註冊成功！");
     }
 
-    // 登入功能
+    /**
+     * 登入功能
+     * @param phoneNumber   手機號碼
+     * @param password      密碼
+     * @param customerList  存放所有顧客資料的陣列
+     * @return              是否登入
+     */
     public boolean login(String phoneNumber, String password, ArrayList<Customer> customerList) {
         // 檢查用戶是否存在
         for (Customer customer : customerList) {

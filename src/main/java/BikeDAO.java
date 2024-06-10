@@ -7,6 +7,11 @@ public class BikeDAO {
     private static final String PASSWORD = "12345678asdfghjkl";
     public Maintainer maintainer = new Maintainer();
 
+    /**
+     * 把資料從資料庫下載下來(所有的腳踏車，包括可調度的腳踏車)
+     * @param allBike
+     * 表示所有的腳踏車
+     */
     public void loadBike(ArrayList<Bike> allBike) {
         try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD)) {
             Statement statement = conn.createStatement();
@@ -22,7 +27,6 @@ public class BikeDAO {
                 Bike.setNowStationString(resultSet.getString("nowStation"));
                 Bike.setPillar(resultSet.getInt("pillar"));
                 Bike.setIsCrossRegional(resultSet.getBoolean("IsCrossRegional"));
-// 另外開表格到時候用裡面的邏輯存進去(?
                 allBike.add(Bike);
             }
         } catch (SQLException e) {
@@ -30,6 +34,10 @@ public class BikeDAO {
         }
     }
 
+    /**
+     * 把所有可調度的腳踏車下載
+     * @param adjustableBike 一個陣列裝著可調度的車子
+     */
     public void loadAdjustableBike(ArrayList<Bike> adjustableBike) {
         try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD)) {
             Statement statement = conn.createStatement();
@@ -52,10 +60,13 @@ public class BikeDAO {
         }
     }
 
-    public void setBikeProperty(ArrayList<Bike> allBike) {
-
-    }
-
+    /**
+     * 把當前這輛車存到資料庫中
+     * @param bike
+     * 想要儲存的車輛
+     * @param savetype
+     * 可以選擇bike/adjustablebike
+     */
     public void saveBike(Bike bike, String savetype) {
         try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD)) {
 
@@ -81,6 +92,11 @@ public class BikeDAO {
         }
     }
 
+    /**
+     * 把資料庫中的表格刪掉用以更新數據
+     * @param savetype
+     * 可選擇bike/adjustablebike
+     */
     public void dropTable(String savetype) {
         try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASSWORD)) {
 

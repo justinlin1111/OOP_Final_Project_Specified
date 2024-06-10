@@ -16,7 +16,14 @@ public class Customer {
     private String rentLocation = null; // 借車的地方
     private Easycard usingEasycard = null; // 正在借車的 Easycard
 
-    // Constructor
+    /**
+     * Constructor
+     * @param phoneNumber   電話號碼
+     * @param password      密碼
+     * @param idNumber      身分證字號
+     * @param email         電子郵件
+     * @param Easycard      悠遊卡物件
+     */
     public Customer(String phoneNumber, String password, String idNumber, String email, Easycard Easycard) {
         this.phoneNumber = phoneNumber;
         this.password = password;
@@ -27,7 +34,10 @@ public class Customer {
         this.rentalRecords = new ArrayList<>();
     }
 
-    // Getter和Setter方法
+    /**
+     * Getter和Setter方法
+     * @return 回傳電話號碼
+     */
     public String getPhoneNumber() {
         return phoneNumber;
     }
@@ -100,30 +110,24 @@ public class Customer {
         this.rentLocation = rentLocation;
     }
 
-    // 新增悠遊卡
-    public void addEasycard(Easycard Easycard) {
-        this.Easycard.add(Easycard);
-    }
-
-    // 新增租借紀錄
-    public void addrentalRecords(RentalRecord rentalRecord) {
-        rentalRecords.add(rentalRecord);
-    }
-
     public void setRentedBike(Bike rentedBike) {
         this.rentedBike = rentedBike;
     }
 
-    public void setRenting(boolean renting) {
-        isRenting = renting;
+    /**
+     * 新增悠遊卡
+     * @param Easycard  悠遊卡物件
+     */
+    public void addEasycard(Easycard Easycard) {
+        this.Easycard.add(Easycard);
     }
 
-    public void setRentLocation(String rentLocation) {
-        this.rentLocation = rentLocation;
-    }
-
-    public void setUsingEasycard(Easycard usingEasycard) {
-        this.usingEasycard = usingEasycard;
+    /**
+     * 新增租借紀錄
+     * @param rentalRecord  租借紀錄物件
+     */
+    public void addrentalRecords(RentalRecord rentalRecord) {
+        rentalRecords.add(rentalRecord);
     }
 
     /**
@@ -180,7 +184,10 @@ public class Customer {
         return s;
     }
 
-    // return info
+    /**
+     * return info
+     * @return  回傳一個字串表示顧客資料
+     */
     public String infotoString() {
         String formattedDateTime;
         if (rentalTime != null) {
